@@ -10,3 +10,5 @@
 .idea
 test.py
 /static/uploads/
+/logs/
+/apps/art/migrations/
