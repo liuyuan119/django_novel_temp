@@ -9,6 +9,7 @@
 #gen
 .idea
 test.py
-/static/uploads/
+/static/uploads/*
 /logs/
 /apps/art/migrations/
+/static/arts_ups/*

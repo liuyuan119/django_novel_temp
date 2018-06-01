@@ -21,6 +21,8 @@ urlpatterns = [
     # url('admin/', admin.site.urls),
     url(r'xadmin/', xadmin.site.urls),
     url(r'^art/', include('art.urls')),
+    url(r'^message/', include('message.urls')),
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
 
     # url('account/', include('auth01.urls')),
     # url('day4_28/', include('day4_28.urls')),

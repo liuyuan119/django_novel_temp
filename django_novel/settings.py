@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'captcha',
     'art',
     'xadmin',
+    'message',
     'crispy_forms',
+    'DjangoUeditor',
+    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +126,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -132,7 +135,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # # 上传文件的根目录
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 
 #########################
@@ -194,10 +197,36 @@ LOGGING = {
 }
 
 logger = logging.getLogger("mdjango")
-
 #########################
 ## Django Logging  END
 #########################
+
+
+#############################
+## celery 配置信息 start
+#############################
+import djcelery
+
+djcelery.setup_loader()
+BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_IMPORTS = ('art.tasks')
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+from celery.schedules import crontab
+from celery.schedules import timedelta
+
+CELERYBEAT_SCHEDULE = {  # 定时器策略
+    # 定时任务一：　每隔30s运行一次
+    u'测试定时器1': {
+        "task": "art.tasks.tsend_email",
+        # "schedule": crontab(minute='*/2'),  # or 'schedule':   timedelta(seconds=3),
+        "schedule": timedelta(seconds=30),
+        "args": (),
+    },
+}
+#############################
+# celery 配置信息 end
+#############################
 
 # ===全局session设置
 # 默认的保存在数据库

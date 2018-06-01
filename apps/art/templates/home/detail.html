@@ -24,7 +24,7 @@
                             <img data-original="/static/{{ art.a_img }}" style="width:262px;height:166px;"
                                  class="img-responsive center-block lazy" alt="">
                         </div>
-                        <div class="col-md-9">{{ art.a_content }}</div>
+                        <div class="col-md-9">{{ art.a_content | safe}}</div>
                     </div>
                 </div>
             </div>

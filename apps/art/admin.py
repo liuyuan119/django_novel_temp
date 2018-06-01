@@ -37,6 +37,7 @@ class ArtAdmin(object):
     # 后台列表通过时间查询
     list_filter = ['a_title', 'a_info', 'a_content', 'a_addtime']
     list_per_page = 20
+    style_fields = {'a_content': 'ueditor'}
 
 
 xadmin.site.register(views.CommAdminView, GlobalSettings)

@@ -1,8 +1,10 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 # Create your views here.
 from art.models import Art, Tag
 from django_novel.settings import logger
+import json
+
 
 def IndexHandler(request):
     # 基础默认信息
@@ -38,7 +40,7 @@ def IndexHandler(request):
     )
     if total > 0:
         import math
-        show_num = 2
+        show_num = 1
         pagenum = math.ceil(total / show_num)
         if page < 1:
             url = url + "?page=1&t=%s" % t
@@ -88,6 +90,13 @@ def IndexHandler(request):
     return render(request, 'home/index.html', context=context)
 
 
+def add_handler(request):
+    x = request.GET.get('x', '1')
+    y = request.GET.get('y', '1')
+    from .tasks import add
+    add.delay(int(x), int(y))
+    res = {'code': 200, 'message': 'ok', 'data': [{'x': x, 'y': y}]}
+    return HttpResponse(json.dumps(res))
 # from django_novel.settings import logger
 #
 # def test():
